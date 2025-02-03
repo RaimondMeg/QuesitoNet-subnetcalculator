@@ -2,7 +2,7 @@
 Subnet calculator with qmake in c++
 
 
-# Subnet Calculator in C++
+### Subnet Calculator in C++
 
 This repository contains a **Subnet Calculator** implemented in C++ with a graphical user interface (GUI) built using the `Qt` framework and `qmake`. The application helps users perform subnetting operations by calculating subnet addresses, subnet masks, IP ranges, and more. It's designed to simplify the process of subnetting and provide quick and accurate results for networking tasks.
 
