@@ -1,6 +1,23 @@
 #include "subnetcalculator.h"
 #include <QApplication>
 #include <QPalette>
+#include <QMessageBox>
+
+// Función para validar una dirección IP
+bool SubnetCalculator::validarIP(const string& ip) {
+    regex ipRegex("^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$");
+    return regex_match(ip, ipRegex);
+}
+
+// Función para validar un valor CIDR
+bool SubnetCalculator::validarCIDR(int cidr) {
+    return (cidr >= 0 && cidr <= 32);
+}
+
+// Función para validar el número de hosts
+bool SubnetCalculator::validarHosts(int hosts) {
+    return (hosts > 0);
+}
 
 // Función para dividir una IP en octetos
 vector<int> SubnetCalculator::dividirIP(const string& ip) {
@@ -173,6 +190,22 @@ void SubnetCalculator::calcularSubneteo() {
     string ip = ipInput->text().toStdString();
     int parametro = parametroInput->text().toInt();
 
+    // Validar la dirección IP
+    if (!validarIP(ip)) {
+        QMessageBox::warning(this, "Error", "La dirección IP tiene un formato incorrecto.");
+        return;
+    }
+
+    // Validar el parámetro (hosts o CIDR)
+    if (hostsRadio->isChecked() && !validarHosts(parametro)) {
+        QMessageBox::warning(this, "Error", "El número de hosts debe ser mayor que 0.");
+        return;
+    } else if (cidrRadio->isChecked() && !validarCIDR(parametro)) {
+        QMessageBox::warning(this, "Error", "El valor CIDR debe estar entre 0 y 32.");
+        return;
+    }
+
+    // Calcular y mostrar resultados
     QString resultado;
     if (hostsRadio->isChecked()) {
         resultado = calcularPorHosts(ip, parametro);
