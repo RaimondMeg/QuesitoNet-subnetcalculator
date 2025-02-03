@@ -8,11 +8,13 @@
 #include <QPushButton>
 #include <QRadioButton>
 #include <QButtonGroup>
+#include <QMessageBox>
 #include <QString>
 #include <vector>
 #include <cmath>
 #include <sstream>
 #include <iostream>
+#include <regex>
 
 using namespace std;
 
@@ -37,6 +39,9 @@ private:
     string unirConPuntos(const vector<int>& octetos);
     QString calcularPorHosts(const string& ip, int hosts);
     QString calcularPorCIDR(const string& ip, int cidr);
+    bool validarIP(const string& ip);
+    bool validarCIDR(int cidr);
+    bool validarHosts(int hosts);
 };
 
 #endif // SUBNETCALCULATOR_H
